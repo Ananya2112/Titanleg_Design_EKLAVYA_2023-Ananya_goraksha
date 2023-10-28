@@ -14,7 +14,7 @@ import random
 # this is the function launch  system will look for
 def generate_launch_description():
     ####### DATA INPUT ##########
-    urdf_file = 'design1_urdf.urdf'
+    urdf_file = '/home/ananya/ros2_ws/src/my_box_bot_gazebo/urdf/Assem1_urdf.urdf'
     #xacro_file = "box_bot.xacro"robot_description
     package_description = "my_box_bot_gazebo"
     ####### DATA INPUT END ##########
@@ -56,9 +56,6 @@ def generate_launch_description():
 
     # create and return launch description object
     return LaunchDescription([  
-        ExecuteProcess(
-            cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so'],
-            output='screen'),
         robot_state_publisher_node,
         spawn_robot
     ])
