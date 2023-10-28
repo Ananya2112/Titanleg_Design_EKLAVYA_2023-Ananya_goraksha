@@ -4,9 +4,11 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument,  ExecuteProcess, RegisterEventHandler
 from launch.substitutions import Command
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.event_handlers import (OnProcessStart, OnProcessExit)
 from launch_ros.descriptions import ParameterValue
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 import random
 
 # this is the function launch  system will look for
@@ -16,9 +18,7 @@ def generate_launch_description():
     #xacro_file = "box_bot.xacro"robot_description
     package_description = "my_box_bot_gazebo"
     ####### DATA INPUT END ##########
-    config = os.path.join( get_package_share_directory('my_box_bot_gazebo'),
-    'config',
-    'manipulator.yaml'
+    config = os.path.join( get_package_share_directory('my_box_bot_gazebo')
     )
     print("Fetching URDF ==>")
     robot_desc_path = os.path.join(get_package_share_directory(package_description), "urdf", urdf_file)
@@ -56,6 +56,9 @@ def generate_launch_description():
 
     # create and return launch description object
     return LaunchDescription([  
+        ExecuteProcess(
+            cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so'],
+            output='screen'),
         robot_state_publisher_node,
         spawn_robot
     ])
